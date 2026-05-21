@@ -1,0 +1,105 @@
+[
+  {
+    "_scenario": "D2C — high CAC on Meta, services question (assignment demo path)",
+    "name": "Priya Sharma",
+    "company": "GlowCart D2C",
+    "role": "Co-founder",
+    "problem": "High CAC on Meta ads; ROAS dropped after scaling spend. Landing page converts but checkout drop-off is high.",
+    "current_spend": "INR 50 lakh/month revenue; ~INR 8 lakh/month on Meta + Google",
+    "timeline": "Want to fix funnel in next 6–8 weeks before festive season",
+    "budget": "INR 3–5 lakh/month for agency support",
+    "fit_score": "hot"
+  },
+  {
+    "_scenario": "B2B SaaS — unclear positioning, growth sprint fit",
+    "name": "Marcus Chen",
+    "company": "FleetPulse",
+    "role": "Head of Growth",
+    "problem": "PLG signups are up but paid conversion flat; no clear ICP in messaging; paid search CPCs rising.",
+    "current_spend": "$12k/month across Google and LinkedIn",
+    "timeline": "Need a 90-day plan before Q3 board review",
+    "budget": "$8–12k for a sprint-style engagement",
+    "fit_score": "warm"
+  },
+  {
+    "_scenario": "Logistics — enterprise, full-stack retainer candidate",
+    "name": "Sofia Alvarez",
+    "company": "RouteLine Logistics",
+    "role": "VP Marketing",
+    "problem": "Fragmented agencies for media, creative, and strategy; inconsistent reporting across regions (UAE + India).",
+    "current_spend": "$180k/month total marketing; $95k on paid",
+    "timeline": "RFP window closes in 3 weeks",
+    "budget": "$10–15k/month retainer if proof of unified ops",
+    "fit_score": "hot"
+  },
+  {
+    "_scenario": "Early-stage — brand awareness only, cold fit",
+    "name": "Jordan Lee",
+    "company": "Patchwork Studio",
+    "role": "Solo founder",
+    "problem": "Nobody knows the brand yet; no paid history; exploring whether to start with organic only.",
+    "current_spend": "Under INR 50k total to date",
+    "timeline": "Exploring options, no urgency",
+    "budget": "Not defined",
+    "fit_score": "cold"
+  },
+  {
+    "_scenario": "Hospitality — paid media + creative studio",
+    "name": "Amira Hassan",
+    "company": "Harbor Hotels Group",
+    "role": "Marketing Director",
+    "problem": "Seasonal occupancy swings; creative fatigue on Meta; need localized offers per property.",
+    "current_spend": "$40k/month Meta; in-house designer overwhelmed",
+    "timeline": "Peak season campaign in 5 weeks",
+    "budget": "$5k/month creative + % of ad spend",
+    "fit_score": "warm"
+  },
+  {
+    "_scenario": "E-commerce — asked about process, ready to sign",
+    "name": "Tom Bradley",
+    "company": "Northwind Outdoors",
+    "role": "CMO",
+    "problem": "Scaling from $2M to $5M ARR; attribution messy post-iOS changes; wants one partner for media + CRO tests.",
+    "current_spend": "$65k/month paid across Meta, Google, TikTok",
+    "timeline": "Kick off in 2 weeks after internal approval",
+    "budget": "$12k/month retainer range discussed on call",
+    "fit_score": "hot"
+  },
+  {
+    "_scenario": "Mid-call disconnect — partial capture (realistic edge case)",
+    "name": "Riya Kapoor",
+    "company": "FreshBowl Meals",
+    "role": "Founder",
+    "problem": "Subscription churn after week 2; unsure if creative or offer problem.",
+    "current_spend": "INR 2 lakh/month on Instagram influencers"
+  },
+  {
+    "_scenario": "Full discovery — all fields captured on goodbye",
+    "name": "Elena Vogt",
+    "company": "DataMesh Analytics",
+    "role": "CEO",
+    "problem": "Enterprise leads from events not nurturing; SDR team underperforming on outbound.",
+    "current_spend": "€25k/month marketing; €8k tools stack",
+    "timeline": "Decision by end of month",
+    "budget": "€10k/month for 6-month pilot",
+    "fit_score": "warm"
+  },
+  {
+    "_scenario": "Services-focused call — D2C supplements (from live testing)",
+    "name": "Drew",
+    "company": "Nourish Co.",
+    "role": "Founder — D2C brand",
+    "problem": "Low conversion rate despite brand awareness work",
+    "current_spend": "INR 5 lakh overall (not monthly)",
+    "fit_score": "warm"
+  },
+  {
+    "_scenario": "AI tools D2C — conversion + strategy gap (from live testing)",
+    "name": "Alex",
+    "company": "D2C AI tools",
+    "role": "Founder",
+    "problem": "Conversion rate low; no marketing strategy; single hire runs everything; founder focused on product",
+    "current_spend": "INR 5 lakhs total, one person",
+    "fit_score": "warm"
+  }
+]

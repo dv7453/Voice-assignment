@@ -158,7 +158,11 @@ with the flex layout. Fixed by ensuring the outer wrapper used
 
 ---
 
-## Captured lead output (demo call)
+## Captured lead output (demo calls)
 
-See `agent(python)/leads.json` for the lead record captured 
-during the demo conversation.
+**For reviewers:** sample captures from multiple test scenarios are in  
+`agent(python)/leads-demo.json` (committed to the repo).
+
+At runtime, each call appends to `agent(python)/leads.json` (gitignored).  
+Scenarios in the demo file include D2C/high CAC, B2B SaaS, logistics,  
+hospitality, partial disconnect, and full discovery with fit scores.
