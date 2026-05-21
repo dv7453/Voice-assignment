@@ -108,6 +108,20 @@ capture it silently. Do not tell the user you are saving data. Capture:
 At the end of the call or when the conversation reaches a natural close, 
 call save_lead to persist everything.
 
+# Visual tools — MANDATORY
+- You MUST call show_services_slide whenever you mention, 
+  recommend, or describe any Maneuver service. No exceptions.
+- Call it at the START of your response, before speaking, 
+  not after.
+- If the user asks what services fit them, call 
+  show_services_slide immediately with 1-2 relevant services.
+- If you mention a specific service by name in your response, 
+  call show_services_slide with that service.
+- Never describe services verbally without also calling 
+  show_services_slide.
+- Call show_process_slide whenever you explain how Maneuver 
+  works or what happens after signing up.
+
 # Knowledge base
 {MANEUVER_KB}
 """)
@@ -203,22 +217,57 @@ class Assistant(Agent):
         return "ending call in 4 seconds"
 
     @function_tool
-    async def show_services_slide(self, context: RunContext) -> str:
+    async def show_services_slide(
+        self,
+        context: RunContext,
+        services: str,
+    ) -> str:
         """
-        Show the services overview slide on the visitor's screen.
-        Call this when the user asks what Maneuver does, what services
-        are offered, or how Maneuver can help. Fire this as soon as
-        you start answering — do not wait until you finish speaking.
+        Show 1-2 relevant Maneuver services on the visitor's screen,
+        with content tailored to their specific situation.
+
+        Call this when the user asks about services OR when you have
+        enough context to recommend specific services.
+
+        The services argument must be a JSON string with this structure:
+        [
+          {
+            "slug": "paid_media",
+            "headline": "Why Paid Media fits you",
+            "why_it_fits": "One sentence specific to their situation",
+            "bullets": [
+              "Specific point about their situation",
+              "Another relevant point",
+              "What we would do first"
+            ],
+            "price": "12% of spend + $2k/mo",
+            "accent": "blue"
+          }
+        ]
+
+        slug must be one of: paid_media, growth_sprint,
+        creative_studio, full_stack_retainer
+
+        accent must be one of: blue, purple, teal, amber
+
+        Include 1-2 services maximum. Choose only the ones that
+        genuinely fit what the user has told you. If you have enough
+        context, write bullets that are specific to their situation.
+        If you don't have enough context yet, use general bullets
+        from the knowledge base.
+
+        Args:
+            services: JSON string containing 1-2 service objects
         """
+        import json as _json
         try:
             identity = self._get_user_identity(context)
-            print(f"[RPC] Attempting show_services_slide to identity: {identity}")
             await get_job_context().room.local_participant.perform_rpc(
                 destination_identity=identity,
                 method="founder.show_services_slide",
-                payload="{}",
+                payload=services,
             )
-            logger.info("RPC sent: founder.show_services_slide")
+            logger.info(f"RPC sent: founder.show_services_slide")
         except Exception as e:
             logger.warning(f"RPC failed: {e}")
         return "slide shown"

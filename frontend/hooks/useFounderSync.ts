@@ -4,10 +4,19 @@ import { useEffect, useState } from 'react';
 import { useRoomContext } from '@livekit/components-react';
 import { markIntentionalAgentEnd } from '@/lib/intentional-agent-end';
 
+export interface ServiceData {
+  slug: string;
+  headline: string;
+  why_it_fits: string;
+  bullets: string[];
+  price: string;
+  accent: string;
+}
+
 export type FounderView =
   | { type: 'idle' }
-  | { type: 'services_overview' }
-  | { type: 'service_detail'; service: string }
+  | { type: 'services_overview'; services: ServiceData[] }
+  | { type: 'service_detail'; service: string; services: ServiceData[] }
   | { type: 'process' };
 
 export interface LeadPanelState {
@@ -31,8 +40,13 @@ export function useFounderSync() {
 
     room.localParticipant.registerRpcMethod(
       'founder.show_services_slide',
-      async (_data) => {
-        setView({ type: 'services_overview' });
+      async (data) => {
+        try {
+          const services = JSON.parse(data.payload);
+          setView({ type: 'services_overview', services: Array.isArray(services) ? services : [] });
+        } catch {
+          setView({ type: 'services_overview', services: [] });
+        }
         return 'ok';
       }
     );
@@ -42,9 +56,10 @@ export function useFounderSync() {
       async (data) => {
         try {
           const payload = JSON.parse(data.payload);
-          setView({ type: 'service_detail', service: payload.service });
+          const services = Array.isArray(payload) ? payload : [];
+          setView({ type: 'service_detail', service: services[0]?.slug ?? '', services });
         } catch {
-          setView({ type: 'services_overview' });
+          setView({ type: 'services_overview', services: [] });
         }
         return 'ok';
       }

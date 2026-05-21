@@ -1,128 +1,237 @@
 'use client';
 
+import { motion, AnimatePresence } from 'motion/react';
 import { type FounderView, type LeadPanelState } from '@/hooks/useFounderSync';
 
-const SERVICES = [
+const ACCENT_STYLES: Record<string, { border: string; price: string; dot: string }> = {
+  blue:   { border: '#3b82f6', price: '#60a5fa', dot: '#3b82f6' },
+  purple: { border: '#8b5cf6', price: '#a78bfa', dot: '#8b5cf6' },
+  teal:   { border: '#14b8a6', price: '#2dd4bf', dot: '#14b8a6' },
+  amber:  { border: '#f59e0b', price: '#fbbf24', dot: '#f59e0b' },
+};
+
+const DEFAULT_SERVICES = [
   {
     slug: 'paid_media',
-    title: 'Paid Media',
-    subtitle: 'Meta + Google',
+    headline: 'Paid Media',
+    why_it_fits: 'Full-funnel campaign management on Meta + Google.',
+    bullets: [
+      'Min spend $10K/month',
+      'Weekly reporting + optimizations',
+      'Creative briefing included',
+    ],
     price: '12% of spend + $2k/mo',
-    desc: 'Full-funnel campaign management. Min spend $10K/month.',
+    accent: 'blue',
   },
   {
     slug: 'growth_sprint',
-    title: 'Growth Sprint',
-    subtitle: '3-week intensive',
+    headline: 'Growth Sprint',
+    why_it_fits: 'A 3-week intensive to find your top growth levers.',
+    bullets: [
+      'Full funnel audit',
+      '90-day execution roadmap',
+      'No ongoing commitment needed',
+    ],
     price: '$8,000 flat',
-    desc: 'Audit your funnel, identify top 3 growth levers, 90-day roadmap.',
+    accent: 'purple',
   },
   {
     slug: 'creative_studio',
-    title: 'Creative Studio',
-    subtitle: 'Performance creative',
+    headline: 'Creative Studio',
+    why_it_fits: 'Performance creative for paid channels.',
+    bullets: [
+      'Up to 20 assets/month',
+      'Static, video, UGC briefs',
+      'Briefed by our strategists',
+    ],
     price: '$3,500/month',
-    desc: 'Up to 20 assets/month. Static, video, UGC briefs, landing pages.',
+    accent: 'teal',
   },
   {
     slug: 'full_stack_retainer',
-    title: 'Full-Stack Retainer',
-    subtitle: 'Media + Creative + Strategy',
+    headline: 'Full-Stack Retainer',
+    why_it_fits: 'Media + Creative + Strategy under one roof.',
+    bullets: [
+      'For brands spending $30K+/month',
+      'Dedicated team of 4',
+      'Weekly calls + Slack channel',
+    ],
     price: '$8K–$15K/month',
-    desc: 'Our flagship. For brands spending $30K+/month on ads.',
+    accent: 'amber',
   },
 ];
 
-const PROCESS_STEPS = [
-  { n: '01', title: 'Discovery', desc: 'Understand your business, goals, unit economics' },
-  { n: '02', title: 'Audit', desc: 'Review ad accounts, creatives, attribution' },
-  { n: '03', title: 'Strategy', desc: '90-day plan with channel mix and KPIs' },
-  { n: '04', title: 'Onboarding', desc: 'Account access, creative intake, dashboard setup' },
-  { n: '05', title: 'Execution', desc: 'Weekly optimizations, bi-weekly strategy calls' },
-  { n: '06', title: 'Reporting', desc: 'Custom dashboard + dedicated Slack channel' },
-];
+interface ServiceData {
+  slug: string;
+  headline: string;
+  why_it_fits: string;
+  bullets: string[];
+  price: string;
+  accent: string;
+}
 
-function ServicesOverview() {
+function ServiceCard({ service, index }: { service: ServiceData; index: number }) {
+  const accent = ACCENT_STYLES[service.accent] ?? ACCENT_STYLES.blue;
   return (
-    <div className="grid grid-cols-2 gap-3 p-4 w-full">
-      {SERVICES.map((s) => (
-        <div
-          key={s.slug}
-          className="rounded-xl border border-white/10 bg-white/5 p-4 flex flex-col gap-1"
-        >
-          <div className="text-xs font-medium text-white/50 uppercase tracking-wider">
-            {s.subtitle}
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: index * 0.08, ease: 'easeOut' }}
+      style={{
+        borderRadius: '12px',
+        background: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.08)',
+        borderLeft: `3px solid ${accent.border}`,
+        padding: '14px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8px',
+      }}
+    >
+      <div style={{
+        fontSize: '13px',
+        fontWeight: 600,
+        color: '#ffffff',
+        lineHeight: 1.3,
+      }}>
+        {service.headline}
+      </div>
+
+      <div style={{
+        fontSize: '11px',
+        color: 'rgba(255,255,255,0.45)',
+        lineHeight: 1.5,
+      }}>
+        {service.why_it_fits}
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        {service.bullets.map((bullet, i) => (
+          <div key={i} style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '6px',
+            fontSize: '11px',
+            color: 'rgba(255,255,255,0.6)',
+            lineHeight: 1.4,
+          }}>
+            <div style={{
+              width: '4px',
+              height: '4px',
+              borderRadius: '50%',
+              background: accent.dot,
+              marginTop: '5px',
+              flexShrink: 0,
+            }} />
+            {bullet}
           </div>
-          <div className="text-base font-semibold text-white">{s.title}</div>
-          <div className="text-sm text-white/60 mt-1">{s.desc}</div>
-          <div className="text-sm font-medium text-blue-400 mt-2">{s.price}</div>
-        </div>
+        ))}
+      </div>
+
+      <div style={{
+        fontSize: '12px',
+        fontWeight: 600,
+        color: accent.price,
+        marginTop: '4px',
+      }}>
+        {service.price}
+      </div>
+    </motion.div>
+  );
+}
+
+function ServicesOverview({ services }: { services: ServiceData[] }) {
+  const display = services.length > 0 ? services : DEFAULT_SERVICES;
+  const isGrid = display.length > 1;
+  return (
+    <div style={{
+      padding: '12px',
+      display: isGrid ? 'grid' : 'flex',
+      gridTemplateColumns: isGrid ? '1fr 1fr' : undefined,
+      flexDirection: isGrid ? undefined : 'column',
+      gap: '10px',
+    }}>
+      {display.map((s, i) => (
+        <ServiceCard key={s.slug} service={s} index={i} />
       ))}
     </div>
   );
 }
 
-function ServiceDetail({ service }: { service: string }) {
-  const s = SERVICES.find((x) => x.slug === service) ?? SERVICES[0];
-  return (
-    <div className="p-6 flex flex-col gap-4 w-full">
-      <div className="text-xs font-medium text-white/50 uppercase tracking-wider">
-        {s.subtitle}
-      </div>
-      <div className="text-2xl font-bold text-white">{s.title}</div>
-      <div className="text-base text-white/70 leading-relaxed">{s.desc}</div>
-      <div className="text-xl font-semibold text-blue-400">{s.price}</div>
-      <div className="mt-2 text-sm text-white/40">
-        Minimum engagement: 3 months
-      </div>
-    </div>
-  );
-}
-
 function ProcessSlide() {
+  const steps = [
+    { n: '01', title: 'Discovery', desc: 'Understand your business, goals, unit economics' },
+    { n: '02', title: 'Audit', desc: 'Review ad accounts, creatives, attribution' },
+    { n: '03', title: 'Strategy', desc: '90-day plan with channel mix and KPIs' },
+    { n: '04', title: 'Onboarding', desc: 'Account access, creative intake, dashboard setup' },
+    { n: '05', title: 'Execution', desc: 'Weekly optimizations, bi-weekly strategy calls' },
+    { n: '06', title: 'Reporting', desc: 'Custom dashboard + dedicated Slack channel' },
+  ];
   return (
-    <div className="p-4 flex flex-col gap-3 w-full">
-      <div className="text-xs font-medium text-white/50 uppercase tracking-wider mb-1">
+    <div style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '2px' }}>
         How we work
       </div>
-      {PROCESS_STEPS.map((step) => (
-        <div key={step.n} className="flex items-start gap-3">
-          <div className="text-xs font-mono font-bold text-blue-400 w-6 pt-0.5 shrink-0">
+      {steps.map((step, i) => (
+        <motion.div
+          key={step.n}
+          initial={{ opacity: 0, x: -8 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.2, delay: i * 0.05 }}
+          style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}
+        >
+          <div style={{ fontSize: '10px', fontWeight: 700, color: '#3b82f6', width: '18px', paddingTop: '2px', flexShrink: 0 }}>
             {step.n}
           </div>
           <div>
-            <div className="text-sm font-semibold text-white">{step.title}</div>
-            <div className="text-xs text-white/50">{step.desc}</div>
+            <div style={{ fontSize: '12px', fontWeight: 600, color: '#ffffff' }}>{step.title}</div>
+            <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', lineHeight: 1.4 }}>{step.desc}</div>
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   );
 }
 
 function LeadPanel({ lead }: { lead: LeadPanelState }) {
-  const fields: { key: keyof LeadPanelState; label: string }[] = [
-    { key: 'name', label: 'Name' },
-    { key: 'company', label: 'Company' },
-    { key: 'role', label: 'Role' },
-    { key: 'problem', label: 'Problem' },
-    { key: 'current_spend', label: 'Current spend' },
-    { key: 'timeline', label: 'Timeline' },
-    { key: 'budget', label: 'Budget' },
-    { key: 'fit_score', label: 'Fit' },
+  const fields: { key: keyof LeadPanelState; label: string; accent: string }[] = [
+    { key: 'name', label: 'Name', accent: '#3b82f6' },
+    { key: 'company', label: 'Company', accent: '#8b5cf6' },
+    { key: 'role', label: 'Role', accent: '#14b8a6' },
+    { key: 'problem', label: 'Problem', accent: '#f59e0b' },
+    { key: 'current_spend', label: 'Spend', accent: '#3b82f6' },
+    { key: 'timeline', label: 'Timeline', accent: '#8b5cf6' },
+    { key: 'budget', label: 'Budget', accent: '#14b8a6' },
+    { key: 'fit_score', label: 'Fit', accent: '#f59e0b' },
   ];
   const captured = fields.filter((f) => lead[f.key]);
   if (captured.length === 0) return null;
   return (
-    <div className="border-t border-white/10 px-4 py-3 flex flex-col gap-2">
-      <div className="text-xs font-medium text-white/30 uppercase tracking-wider">
+    <div style={{
+      borderTop: '1px solid rgba(255,255,255,0.08)',
+      padding: '10px 14px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '6px',
+    }}>
+      <div style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
         Captured
       </div>
-      {captured.map(({ key, label }) => (
-        <div key={key} className="flex gap-2 text-xs">
-          <span className="text-white/40 w-24 shrink-0">{label}</span>
-          <span className="text-white/80">{lead[key]}</span>
-        </div>
+      {captured.map(({ key, label, accent }) => (
+        <motion.div
+          key={key}
+          initial={{ opacity: 0, x: -6 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.2 }}
+          style={{ display: 'flex', gap: '8px', alignItems: 'flex-start', fontSize: '11px' }}
+        >
+          <div style={{ color: accent, width: '60px', flexShrink: 0, fontWeight: 500 }}>
+            {label}
+          </div>
+          <div style={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.4 }}>
+            {lead[key]}
+          </div>
+        </motion.div>
       ))}
     </div>
   );
@@ -135,27 +244,87 @@ interface FounderPanelProps {
 
 export function FounderPanel({ view, lead }: FounderPanelProps) {
   return (
-    <div className="flex flex-col h-full rounded-2xl border border-white/10 
-                    bg-black/40 backdrop-blur overflow-hidden">
-      <div className="px-4 py-3 border-b border-white/10">
-        <div className="text-xs font-semibold text-white/40 uppercase tracking-widest">
-          Maneuver
-        </div>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      borderRadius: '16px',
+      border: '1px solid rgba(255,255,255,0.08)',
+      background: 'rgba(0,0,0,0.5)',
+      backdropFilter: 'blur(12px)',
+      overflow: 'hidden',
+    }}>
+      <div style={{
+        padding: '10px 14px',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        fontSize: '10px',
+        fontWeight: 700,
+        color: 'rgba(255,255,255,0.3)',
+        letterSpacing: '0.12em',
+        textTransform: 'uppercase',
+      }}>
+        Maneuver
       </div>
 
-      <div className="flex-1 overflow-y-auto">
-        {view.type === 'idle' && (
-          <div className="flex items-center justify-center h-full p-8 text-center">
-            <div className="text-white/20 text-sm">
-              Visuals will appear here as we talk
-            </div>
-          </div>
-        )}
-        {view.type === 'services_overview' && <ServicesOverview />}
-        {view.type === 'service_detail' && (
-          <ServiceDetail service={view.service} />
-        )}
-        {view.type === 'process' && <ProcessSlide />}
+      <div style={{ flex: 1, overflowY: 'auto' }}>
+        <AnimatePresence mode="wait">
+          {view.type === 'idle' && (
+            <motion.div
+              key="idle"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '200px',
+                padding: '24px',
+                textAlign: 'center',
+              }}
+            >
+              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.18)' }}>
+                Visuals will appear here as we talk
+              </div>
+            </motion.div>
+          )}
+
+          {view.type === 'services_overview' && (
+            <motion.div
+              key="services"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ServicesOverview services={view.services ?? []} />
+            </motion.div>
+          )}
+
+          {view.type === 'service_detail' && (
+            <motion.div
+              key={`detail-${view.service}`}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              <ServicesOverview services={view.services ?? []} />
+            </motion.div>
+          )}
+
+          {view.type === 'process' && (
+            <motion.div
+              key="process"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ProcessSlide />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       <LeadPanel lead={lead} />
