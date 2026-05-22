@@ -59,18 +59,17 @@ Open http://localhost:3000 and click Start conversation.
 ---
 
 ## Architecture
-```
-Browser (React/Next.js)
-↕ WebRTC audio
-LiveKit Cloud
-↕ Job dispatch (explicit via AgentDispatchClient)
-Python Agent (LiveKit Agents 1.5)
-→ STT: Deepgram Nova-3
-→ LLM: GPT-4.1
-→ TTS: Cartesia Sonic-3
-→ VAD: Silero + MultilingualModel turn detection
-→ RPC: Tool calls → frontend visual events
-```
+
+![Maneuver Talk to Founder — system architecture](docs/architecture-diagram.png)
+
+| Layer | Components |
+|-------|------------|
+| **Browser** | React/Next.js — mic/speaker, FounderPanel, lead panel, RPC listeners (`useFounderSync.ts`), `/api/token` |
+| **LiveKit Cloud** | SFU / signal server — WebRTC audio, agent dispatch (`RoomAgentDispatch` in token) |
+| **Python agent** | LiveKit Agents 1.5 — Deepgram Nova-3 → GPT-4.1 → Cartesia Sonic-3, Silero VAD + turn detection |
+| **Tool → UI** | `show_services_slide`, `show_process_slide`, `update_lead_panel`, `end_call` → RPC to frontend; `save_lead` → `leads.json` |
+
+**Legend:** blue = WebRTC/audio · purple dashed = control/dispatch · orange = LLM tool calls · purple solid = RPC events
 
 ---
 
