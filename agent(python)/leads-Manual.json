@@ -1,0 +1,29 @@
+[
+  {
+    "problem": "Struggling with brand awareness\u2014target market doesn't recognize or know the company."
+  },
+  {},
+  {
+    "name": "Drew",
+    "company": "Nourish Co.",
+    "problem": "Low conversion rate",
+    "role": "Founder\u2014D2C brand",
+    "current_spend": "INR 5 lakh overall (not monthly)"
+  },
+  {},
+  {},
+  {
+    "name": "Alex",
+    "problem": "Conversion rate low, no marketing strategy in place, handled by hired marketer, founder focused on product. Has a landing page, ran some Instagram campaigns, some SEO.",
+    "current_spend": "5 lakhs, all managed by a single hire",
+    "fit_score": "warm",
+    "company": "D2C AI tools",
+    "role": "Founder"
+  },
+  {
+    "name": "Dhruv",
+    "company": "D2C AI tool curation brand",
+    "problem": "Low conversion rate from paid ads despite substantial spend",
+    "current_spend": "INR 5 lakh per month"
+  }
+]
